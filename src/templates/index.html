@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Forest Prediction</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* Container Styling */
+        .container {
+            background-color: #ffffff;
+            padding: 20px 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        /* Form Styling */
+        form label {
+            display: block;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #333;
+        }
+
+        form select, form input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+
+        form select:focus, form input[type="number"]:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        /* Submit Button Styling */
+        form input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: bold;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        form input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        /* Prediction Output Styling */
+        .prediction {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Predict the Target Variable</h1>
+        <form action="/predict" method="post">
+            <!-- Input for Age -->
+            <label for="age">Age:</label>
+            <input type="number" name="age" min="18" max="100" required>
+
+            <!-- Dropdown for Job -->
+            <label for="job">Job:</label>
+            <select name="job" required>
+                <option value="admin.">Admin</option>
+                <option value="blue-collar">Blue Collar</option>
+                <option value="entrepreneur">Entrepreneur</option>
+                <option value="housemaid">Housemaid</option>
+                <option value="management">Management</option>
+                <option value="retired">Retired</option>
+                <option value="self-employed">Self-employed</option>
+                <option value="services">Services</option>
+                <option value="student">Student</option>
+                <option value="technician">Technician</option>
+                <option value="unemployed">Unemployed</option>
+                <option value="unknown">Unknown</option>
+            </select>
+
+            <!-- Dropdown for Marital Status -->
+            <label for="marital">Marital Status:</label>
+            <select name="marital" required>
+                <option value="single">Single</option>
+                <option value="married">Married</option>
+                <option value="divorced">Divorced</option>
+            </select>
+
+            <!-- Dropdown for Education Level -->
+            <label for="education">Education Level:</label>
+            <select name="education" required>
+                <option value="primary">Primary</option>
+                <option value="secondary">Secondary</option>
+                <option value="tertiary">Tertiary</option>
+                <option value="unknown">Unknown</option>
+            </select>
+
+            <!-- Dropdown for Contact Type -->
+            <label for="contact">Contact Type:</label>
+            <select name="contact" required>
+                <option value="cellular">Cellular</option>
+                <option value="telephone">Telephone</option>
+                <option value="unknown">Unknown</option>
+            </select>
+
+            <!-- Dropdown for Month -->
+            <label for="month">Month:</label>
+            <select name="month" required>
+                <option value="jan">January</option>
+                <option value="feb">February</option>
+                <option value="mar">March</option>
+                <option value="apr">April</option>
+                <option value="may">May</option>
+                <option value="jun">June</option>
+                <option value="jul">July</option>
+                <option value="aug">August</option>
+                <option value="sep">September</option>
+                <option value="oct">October</option>
+                <option value="nov">November</option>
+                <option value="dec">December</option>
+            </select>
+
+            <!-- Dropdown for Previous Outcome -->
+            <label for="poutcome">Previous Campaign Outcome:</label>
+            <select name="poutcome" required>
+                <option value="success">Success</option>
+                <option value="failure">Failure</option>
+                <option value="other">Other</option>
+                <option value="unknown">Unknown</option>
+            </select>
+
+            <!-- Dropdown for Economic PCA Component -->
+            <label for="economic_pca">Economic PCA Component:</label>
+            <select name="economic_pca" required>
+                <option value="-2">-2 (Poor Economic Conditions)</option>
+                <option value="-1">-1 (Below Average Economic Conditions)</option>
+                <option value="0">0 (Average Economic Conditions)</option>
+                <option value="1">1 (Above Average Economic Conditions)</option>
+                <option value="2">2 (Good Economic Conditions)</option>
+            </select>
+
+            <!-- Dropdown for Campaign PCA Component -->
+            <label for="campaign_pca">Campaign PCA Component:</label>
+            <select name="campaign_pca" required>
+                <option value="-2">-2 (Low Campaign Intensity)</option>
+                <option value="-1">-1 (Below Average Campaign Intensity)</option>
+                <option value="0">0 (Average Campaign Intensity)</option>
+                <option value="1">1 (Above Average Campaign Intensity)</option>
+                <option value="2">2 (High Campaign Intensity)</option>
+            </select>
+
+            <!-- Submit Button -->
+            <input type="submit" value="Predict">
+        </form>
+
+        <!-- Prediction Output -->
+        {% if prediction is not none %}
+        <div class="prediction">
+            <h2>Prediction: {{ prediction }}</h2>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
