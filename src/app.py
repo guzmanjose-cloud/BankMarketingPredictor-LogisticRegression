@@ -62,8 +62,11 @@ def predict():
         # Make prediction
         prediction = model.predict(features_scaled)
 
+        prediction_label = "yes" if prediction == 1 else "no"
+
+
         # Render the HTML with prediction result
-        return render_template('index.html', prediction=int(prediction[0]))
+        return render_template('index.html', prediction=(prediction_label))
     except Exception as e:
         # Log or print the error for debugging
         print(f"Error occurred: {e}")

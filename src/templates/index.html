@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Forest Prediction</title>
+    <title>Campaign Marketting Prediction</title>
     <style>
         /* Basic Reset */
         * {
@@ -90,7 +90,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Predict the Target Variable</h1>
+        <h1>Campaign Marketing Prediction</h1>
         <form action="/predict" method="post">
             <!-- Input for Age -->
             <label for="age">Age:</label>
@@ -165,7 +165,7 @@
             </select>
 
             <!-- Dropdown for Economic PCA Component -->
-            <label for="economic_pca">Economic PCA Component:</label>
+            <label for="economic_pca">Economic Condition Index:</label>
             <select name="economic_pca" required>
                 <option value="-2">-2 (Poor Economic Conditions)</option>
                 <option value="-1">-1 (Below Average Economic Conditions)</option>
@@ -175,7 +175,7 @@
             </select>
 
             <!-- Dropdown for Campaign PCA Component -->
-            <label for="campaign_pca">Campaign PCA Component:</label>
+            <label for="campaign_pca">Campaign Contact Intensity:</label>
             <select name="campaign_pca" required>
                 <option value="-2">-2 (Low Campaign Intensity)</option>
                 <option value="-1">-1 (Below Average Campaign Intensity)</option>
